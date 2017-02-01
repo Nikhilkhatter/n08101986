@@ -1,0 +1,54 @@
+
+SOAP stands for Simple Object Access Protocol. It is a XML-based protocol for accessing web services.
+SOAP is a W3C recommendation for communication between two applications.
+SOAP is XML based protocol. It is platform independent and language independent. By using SOAP, you will be able to interact with other programming language applications.
+Advantages of Soap Web Services
+WS Security: SOAP defines its own security known as WS Security.
+Language and Platform independent: SOAP web services can be written in any programming language and executed in any platform.
+Disadvantages of Soap Web Services
+Slow: SOAP uses XML format that must be parsed to be read. It defines many standards that must be followed while developing the SOAP applications. So it is slow and consumes more bandwidth and resource.
+WSDL dependent: SOAP uses WSDL and doesn't have any other mechanism to discover the service.
+
+REST stands for Representational State Transfer.
+REST is an architectural style not a protocol.
+Advantages of RESTful Web Services
+Fast: RESTful Web Services are fast because there is no strict specification like SOAP. It consumes less bandwidth and resource.
+Language and Platform independent: RESTful web services can be written in any programming language and executed in any platform.
+Can use SOAP: RESTful web services can use SOAP web services as the implementation.
+Permits different data format: RESTful web service permits different data format such as Plain Text, HTML, XML and JSON.
+
+SOAP vs REST Web Services
+No.	SOAP							REST
+1)	SOAP is a protocol.				REST is an architectural style.
+2)	SOAP stands for Simple Object Access Protocol.	REST stands for REpresentational State Transfer.
+3)	SOAP can't use REST because it is a protocol.	REST can use SOAP web services because it is a concept and can use any protocol like HTTP, SOAP.
+4)	SOAP uses service interfaces to expose the business logic.	REST uses URI to expose business logic.
+5)	JAX-WS is the java API for SOAP web services.	JAX-RS is the java API for RESTful web services.
+6)	SOAP defines standards to be strictly followed.	REST does not define too much standards like SOAP.
+7)	SOAP requires more bandwidth and resource than REST.	REST requires less bandwidth and resource than SOAP.
+8)	SOAP defines its own security.	RESTful web services inherits security measures from the underlying transport.
+9)	SOAP permits XML data format only.	REST permits different data format such as Plain text, HTML, XML, JSON etc.
+10)	SOAP is less preferred than REST.	REST more preferred than SOAP.
+
+
+Service Oriented Architecture (SOA)
+Service Oriented Architecture or SOA is a design pattern. It is designed to provide services to other applications through protocol. It is a concept only and not tied to any programming language or platform.
+Web services is a technology of SOA most likely.
+
+Service : A service is well-defined, self-contained function that represents unit of functionality. A service can exchange information from another service. It is not dependent on the state of another service.
+
+Java Web Services API :
+There are two main API's defined by Java for developing web service applications since JavaEE 6.
+1) JAX-WS: for SOAP web services. The are two ways to write JAX-WS application code: by RPC style and Document style.
+2) JAX-RS: for RESTful web services. There are mainly 2 implementation currently in use for creating JAX-RS application: Jersey and RESTeasy.
+---------------------------
+WSDL - declare what a webservice is ( in xml format )
+SOAP - protocol (xml format) used to encode/decode different messages.
+UDDI - directory where the Webservices are published.
+UDDI : Universal description discovery and integration ( registery of creating web services )
+SEI- called method needs to be converted into SOAP msg by SEI - Service Endpoint Interface,
+interface to the webservices endpoint, used to convert caller objects into SOAP msg to actually consume webservices.
+
+generating the stub ( ENDPOINT ):
+wsimport http://www.webservicex.com/globalweather.asmx?wsdl 
+wsimport -keep -s http://www.webservicex.com/globalweather.asmx?wsdl
