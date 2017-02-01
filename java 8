@@ -41,3 +41,55 @@ Stream is a new abstract layer introduced in Java 8.
  	collect() method is a terminal operation which is normally present at the end of the pipelining operation to mark the end of the stream.
  5. Automatic iterations − Stream operations do the iterations internally over the source elements provided, 
  	in contrast to Collections where explicit iteration is required.
+------------------------------------------------------------------------------------
+
+java -8
+
+// () -> System.out.println(" this is a labda expression")
+
+//	() -> {
+			System.out.println(" this is a labda expression code ");
+			System.out.println(" this is a labda expression code 2nd statement ");
+			
+		}
+
+Functional interface : has only 1 single method. eg. Runnable, Comparable interface
+
+java 7 == underscore in number.
+
+Lambda expression: are anonymous mothods.
+
+// values.forEach((Integer value) -> System.out.println(value));
+
+// value.forEach((value) -> System.out.println(value));
+
+// values.forEach(value -> System.out.println(value));
+
+// values.forEach(System.out::println);
+
+// invoke dynamic feature : used internally in lambda, only  1 class created 
+
+// Functional interface : single abstract method interface, with method signature with parameters, defines the contract how many 
+
+values can be passed.
+
+// double the values and total them in collection:
+
+	// System.out.println(values.stream().map(e -> e * 2).reduce(0 , (c,e) -> c + e ))
+
+// values.stream().map(e -> e * 2).reduce(0 , (c,e) -> c + e )
+	
+// default method in interface : rules  : 
+1. default methods get inhertied automatically.
+2. u can override a default method.
+3. methods in a class heirarchy rule, nearest class heirarchy method gets called
+4. if u have 2 interfaces having same function, then u have to override / must
+
+// remaining diff b/w abstract and interface then:
+1. interface can not have states, but abstract class can have
+2. u can not inherit from more than 1 abstract class, but can have implement interfaces 
+
+comparable interface in java8:
+implement a method that receive lambda expression or receive functional interfaces:
+
+important stream feature : its lazy efficient evalauation 
