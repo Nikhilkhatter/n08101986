@@ -1,0 +1,43 @@
+Functional interfaces have a single functionality to exhibit. For example, 
+ a Comparable interface with a single method ‘compareTo’ is used for comparison purpose. 
+ Java 8 has defined a lot of functional interfaces to be used extensively in lambda expressions. 
+ Following is the list of functional interfaces defined in java.util.Function package.
+ also called Single Abstract Method interfaces (SAM Interfaces).
+
+
+ Functional Interface can have only 1 method
+ parameter -> expression body
+ Lambda expressions are used primarily to define inline implementation of a functional interface,
+ i.e., an interface with a single method only.
+ Lambda expression eliminates the need of anonymous class and gives a very simple 
+ yet powerful functional programming capability to Java.
+ works internally on Invoke Dynamics
+
+Method references help to point to methods by their names. A method reference is described using :: (double colon) symbol. 
+ A method reference can be used to point the following types of methods −
+ Static methods
+ Instance methods
+ Constructors using new operator (TreeSet::new)
+
+ Optional is a container object which is used to contain not-null objects.
+ Optional object is used to represent null with absent value.
+ public final class java.util.Optional<T> 
+
+Optional.ofNullable - allows passed parameter to be null.
+Optional.of - throws NullPointerException if passed parameter is null
+Optional.get - gets the value, value should be present otherwise java.util.NoSuchElementException
+Optional.orElse - returns the value if present otherwise returns the default value passed
+
+Stream is a new abstract layer introduced in Java 8. 
+ Using stream, you can process data in a declarative way similar to SQL statements.
+ Stream represents a sequence of objects from a source, which supports aggregate operations. 
+ Following are the characteristics of a Stream −
+ 1.  Sequence of elements − A stream provides a set of elements of specific type in a sequential manner. 
+ 	A stream gets/computes elements on demand. It never stores the elements.
+ 2. Source − Stream takes Collections, Arrays, or I/O resources as input source.
+ 3. Aggregate operations − Stream supports aggregate operations like filter, map, limit, reduce, find, match, and so on.
+ 4. Pipelining − Most of the stream operations return stream itself so that their result can be pipelined. 
+ 	These operations are called intermediate operations and their function is to take input, process them, and return output to the target.
+ 	collect() method is a terminal operation which is normally present at the end of the pipelining operation to mark the end of the stream.
+ 5. Automatic iterations − Stream operations do the iterations internally over the source elements provided, 
+ 	in contrast to Collections where explicit iteration is required.
