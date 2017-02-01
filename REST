@@ -1,0 +1,188 @@
+
+Rest Web Services : 
+Statelessness means that every HTTP request happens in complete isolation. When the client makes an HTTP request, it includes all information neccessary for the server to fulfill that request. The server never relies on information from previous requests. If that information was important, the client would have sent it again in this request. Statelessness also brings new features. It’s easier to distribute a stateless application across load-balanced servers. A stateless application is also easy to cache.
+
+There are actually two kinds of state. Application State that lives on the client and Resource State that lives on the server.
+
+A web service only needs to care about your application state when you’re actually making a request. The rest of the time, it doesn’t even know you exist. This means that whenever a client makes a request, it must include all the application states the server will need to process it.
+
+Resource state is the same for every client, and its proper place is on the server. When you upload a picture to a server, you create a new resource: the new picture has its own URI and can be the target of future requests. You can fetch, modify, and delete this resource through HTTP.
+---------------------------------------------------------------------------------------------------------
+
+REST Architectural Constraints :
+1. Uniform interface :
+A resource in system should have only one logical URI, and then should provide way to fetch related or additional data.
+Any single resource should not be too large and contain each and everything in it’s representation. Whenever relevant, a resource should contain links (HATEOAS) pointing to relative URIs to fetch related information.
+Also, the resource representations across system should follow certain guidelines such as naming conventions, link formats or data format (xml or/and json).
+
+2. Client–server
+Servers and clients may also be replaced and developed independently, as long as the interface between them is not altere
+
+3. Stateless
+No client context shall be stored on the server between requests. Client is responsible for managing the state of application.
+
+4. Cacheable
+In REST, caching shall be applied on resources when applicable and then these resources MUST declare themselves cacheable. Caching can be implemented on server or client side.
+Client Caching brings performance improvement for client side, and better scope for scalability for server because load has reduced.
+
+5. Layered system
+REST allow you to use a layered system architecture where you deploy the APIs on server A, and store data on server B and authenticate requests in Server C, for example. A client cannot ordinarily tell whether it is connected directly to the end server, or to an intermediary along the way.
+
+6. Code on demand (optional constraint)
+Well, this constraint is optional. Most of the time you will be sending the static representations of resources in form of XML or JSON. But when you need to, you are free to return executable code to support a part of your application e.g. clients may call your API to get a UI widget rendering code. It is permitted.
+
+-----------------------------------------------------------------------------------------------------------
+
+
+REST Resource Naming Best Practices :
+A resource can be a singleton or a collection. A resource may contain sub-collection resources also.
+
+1. Use nouns to represent resources
+RESTful URI should refer to a resource that is a thing (noun) instead of referring to an action (verb) because nouns have properties as vrbs do not – similar to resources have attributes. 
+http://api.example.com/device-management/managed-devices 
+http://api.example.com/device-management/managed-devices/{device-id} 
+http://api.example.com/user-management/users/
+http://api.example.com/user-management/users/{id}
+
+let’s divide the resource archetypes into four categories and then you should always target to put a resource into one archetype and then use it’s naming convention consistently.
+
+1. document
+A document resource is a singular concept that is akin to an object instance or database record. A document’s state representation typically includes both fields with values and links to other related resources.
+
+Use “singular” name to denote document resource archetype.
+
+http://api.example.com/device-management/managed-devices/{device-id}
+http://api.example.com/user-management/users/{id}
+http://api.example.com/user-management/users/admin
+
+2. collection :
+A collection resource is a server-managed directory of resources. A collection resource chooses what it wants to contain and also decides the URIs of each contained resource.
+Use “plural” name to denote collection resource archetype.
+http://api.example.com/device-management/managed-devices
+http://api.example.com/user-management/users
+http://api.example.com/user-management/users/{id}/accounts
+
+3. store :
+A store is a client-managed resource repository. A store resource lets an API client put resources in, get them back out, and decide when to delete them. A store never generates new URIs. Instead, each stored resource has a URI that was chosen by a client when it was initially put into the store.
+Use “plural” name to denote store resource archetype.
+http://api.example.com/cart-management/users/{id}/carts
+http://api.example.com/song-management/users/{id}/playlists
+
+4. controller :
+A controller resource models a procedural concept. Controller resources are like executable functions, with parameters and return values; inputs and outputs.
+Use “verb” to denote controller archetype.
+http://api.example.com/cart-management/users/{id}/cart/checkout
+http://api.example.com/song-management/users/{id}/playlist/play
+
+
+Consistency is the key :
+1. Use forward slash (/) to indicate a hierarchical relationships
+http://api.example.com/device-management/managed-devices/{id}/scripts/{id}
+
+2. Do not use trailing forward slash (/) in URIs 
+As the last character within a URI’s path, a forward slash (/) adds no semantic value and may cause confusion. It’s better to drop them completely.At last in URI, never use forward slash.
+
+3. Use hyphens (-) to improve the readability of URIs
+use the hyphen (-) character to improve the readability of names in long path segments.
+http://api.example.com/inventory-management/managed-entities/{id}/install-script-location
+
+4. Do not use underscores ( _ )
+It’s posible to use an underscore in place of hyphen to be used as seperator – But depending on the application’s font, it’s possible that the underscore (_) character can either get partially obscured or completely hidden in some browsers or screens.
+To avoid this confusion, use hyphens (-) instead of underscores ( _ ).
+
+5. Use lowercase letters in URIs
+When convenient, lowercase letters should be consistently preferred in URI paths.
+RFC 3986 defines URIs as case-sensitive except for the scheme and host components. e.g.
+http://api.example.org/my-folder/my-doc  //1
+HTTP://API.EXAMPLE.ORG/my-folder/my-doc  //2
+http://api.example.org/My-Folder/my-doc  //3
+
+In above examples, 1 and 2 are same but 3 is not as it uses My-Folder in capital letters.
+
+6. Do not use file extenstions.
+http://api.example.com/device-management/managed-devices.xml  /*Do not use it*/
+http://api.example.com/device-management/managed-devices 	/*This is correct URI*/
+
+7. Never use CRUD function names in URIs
+URIs should not be used to indicate that a CRUD function is performed. URIs should be used to uniquely identify resources and not any action upon them. HTTP request methods should be used to indicate which CRUD function is performed.
+
+HTTP GET http://api.example.com/device-management/managed-devices  //Get all devices
+HTTP POST http://api.example.com/device-management/managed-devices  //Create new Device
+
+HTTP GET http://api.example.com/device-management/managed-devices/{id}  //Get device for given Id
+HTTP PUT http://api.example.com/device-management/managed-devices/{id}  //Update device for given Id
+HTTP DELETE http://api.example.com/device-management/managed-devices/{id}  //Delete device for given Id
+
+8. Use query component to filter URI collection
+Many times, you will come across requirements where you will need a collection of resources sorted, filtered or limited based on some certain resource attribute. For this, do not create new APIs – rather enable sorting, filtering and pagination capabilities in resource collection API and pass the input parameters as query parameters. e.g
+
+http://api.example.com/device-management/managed-devices?region=USA&brand=XYZ&sort=installation-date
+-----------------------------------------------------------------------------------------------------------
+Caching REST API Response :
+Caching is the ability to store copies of frequently accessed data in several places along the request-response path. When a consumer requests a resource representation, the request goes through a cache or a series of caches (local cache, proxy cache or reverse proxy) toward the service hosting the resource. If any of the caches along the request path has a fresh copy of the requested representation, it uses that copy to satisfy the request. If none of the caches can satisfy the request, the request travels all the way to the service (or origin server as it is formally known).
+
+Using HTTP headers, an origin server indicates whether a response can be cached, and if so, by whom, and for how long. Caches along the response path can take a copy of a response, but only if the caching metadata allows them to do so.
+Optimizing the network using caching improves the overall quality-of-service in following ways:
+Reduce bandwidth
+Reduce latency
+Reduce load on servers
+Hide network failures
+
+Caching in REST APIs :
+GET requests should be cachable by default – until special condition arises. Usually browsers treat all GET requests cacheable. POST requests are not cacheable by default but can be made cacheable if either an Expires header, or a Cache-Control header with a directive that explicitly allows caching, is added to the response. Responses to PUT and DELETE requests are not cacheable at all.
+
+There are two main HTTP response headers that we can use to control caching behavior:
+1. Expires :
+The Expires HTTP header specifies an absolute expiry time for a cached representation. Beyond that time, a cached representation is considered stale and must be re-validated with the origin server. To indicate that a representation never expires, a service can include a time up to one year in the future.
+
+Expires: Fri, 20 May 2016 19:20:49 IST :
+
+2. Cache-Control :
+The header value comprises one or more comma-separated directives. These directives determine whether a response is cacheable, and if so, by whom, and for how long e.g. max-age or s-maxage directives.
+
+Cache-Control: max-age=3600
+
+Cacheable responses (whether to a GET or to a POST request) should also include a validator — either an ETag or a Last-Modified header.
+ 1. ETag : An ETag value is an opaque string token that a server associates with a resource to uniquely identify the state of the resource over its lifetime. When the resource changes, the ETag changes accordingly.
+
+ETag: "abcd1234567n34jv"
+
+2. Last-Modified : Whereas a response’s Date header indicates when the response was generated, the Last-Modified header indicates when the associated resource last changed. The Last-Modified value cannot be later than the Date value.
+
+Last-Modified: Fri, 10 May 2016 09:17:49 IST
+-----------------------------------------------------------------------------------------------------------
+2XX SUCCESS CODES
+200 OK
+201 created
+204 No content  ( delete )
+
+3XX - redirection codes
+302 found
+307 temporary redirct
+304 not modified  ( prev data not modified yet on server )
+
+4XX client error
+400 bad request
+401 unAutorized
+403 forbidden
+404 NOt found
+415 unSupported media type
+
+5XX server errors
+500 internal server error
+-----------------------------------------------------------------------------------------------------------
+HATEOAS : HyperMedia As The Engine Of Applicatopn State 
+means :- providing further links in the response body
+HATEOAS is a way to provide links to resources in the API response.
+
+Richerdson maturity Model: ( IS FULLY RESTFUL )
+Level 0: ONe URI, and details are in message body as POX ( plain old xml like in SOAP )
+Level 1 : Resource URI ( individual URI for each resource )
+Level 2 : use the right HTTP methods and status codes ( get, post, put delete to do diff operations )
+Level 3 : HATEOAS ( Responses have links that client can use )
+
+JAX-RS: Java API for RESTful Web Services (JAX-RS) is a Java programming language API that provides support in creating web services according to the Representational State Transfer (REST) architectural pattern.
+JAX-RS API: library for writing restful web services in JAVA : Jersy is reference implementation of JAX-RS specifications
+-----------------------------------------------------------------------------------------------------------
+
+
