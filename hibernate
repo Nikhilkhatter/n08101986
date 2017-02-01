@@ -1,0 +1,56 @@
+Hibernate is an open source, lightweight, ORM (Object Relational Mapping) tool.
+An ORM tool simplifies the data creation, data manipulation and data access. It is a programming technique that maps the object to the data stored in the database.
+
+Advantages : 
+1.Opensource and Lightweight 
+2.Fast performance :The performance of hibernate framework is fast because cache is internally used in hibernate framework. There are two types of cache in hibernate framework first level cache and second level cache. First level cache is enabled bydefault.
+3.Database Independent query:HQL (Hibernate Query Language) is the object-oriented version of SQL.It generates the database independent queries. 
+4.Automatic table creation :
+5.  Simplifies complex join:
+6.Provides query statistics and database status: Hibernate supports Query cache and provide statistics about query and database status.
+
+Elements of Hibernate Architecture:
+1. SessionFactory :The SessionFactory is a factory of session and client of ConnectionProvider. It holds second level cache (optional) of data. The org.hibernate.SessionFactory interface provides factory method to get the object of Session.
+2. Session : The session object provides an interface between the application and data stored in the database. It is a short-lived object and wraps the JDBC connection. It is factory of Transaction, Query and Criteria. It holds a first-level cache (mandatory) of data. The org.hibernate.Session interface provides methods to insert, update and delete the object. It also provides factory methods for Transaction, Query and Criteria.
+3. Transaction : The transaction object specifies the atomic unit of work. It is optional. The org.hibernate.Transaction interface provides methods for transaction management.
+4. ConnectionProvider :It is a factory of JDBC connections. It abstracts the application from DriverManager or DataSource. It is optional.
+5. TransactionFactory : It is a factory of Transaction. It is optional.
+
+
+Hibernate caching -
+First level Cache :Session ( update a persisitent object and upadte it again, Hibernate dont call update query again and run the minimum no of queries required ) (by default provided in hibernate )
+
+User user1 = session.get(User.class, 1);
+User user2 = session.get(User.class, 1);
+only 1 select sql statement gets called from DB, since 1st level cache is default.
+<property name="cache.provider.class">org.hibernate.cache.NoCacheProvider</property>
+
+
+Second level cache : bcos sessions are not open always. 
+	(cache is across diferent sessions). 
+	(across different applications), 
+	(across different clusters).
+
+User user1 = session1.get(User.class, 1);
+User user2 = session2.get(User.class, 1);
+only 1 select sql statement gets called from DB, after 2nd level cache is configured.
+
+<property name="cache.use_second_level_cache"></property>
+<property name="cache.provider.class">org.hibernate.cache.EhCacheProvider</property>
+
+and download ehCache jars from internet and add to classpath
+Also entities should be configured to be cached using annotaion @Cacheable.
+@Cacheable
+@Cache( usage= CacheConcurrencyStrategy.READ_WRITE )  // .READ_ONLY, .TRANSACTIONAL etc.
+
+
+Using Query Cache : ( by default Hibernate does not take 2nd level cache while using query )
+<property name="cache.use_second_level_cache"></property>
+<property name="cache.use_query_cache"></property>
+<property name="cache.provider.class">org.hibernate.cache.EhCacheProvider</property>
+
+
+Query query = Session.createQuery("from UserDetails where userId = 1 ");
+query.setCacheable(true); // need to make all queries .setCacheable(true) while using it again in other sessions
+
+
