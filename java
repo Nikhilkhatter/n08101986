@@ -840,3 +840,176 @@ Where you have used multithreading in project:
 4. JUnit uses threads to run test cases in parallel
 5. Text Editor follows multithreading concept. When you are typing the words printing,formatting of text, spell checking, 
 all tasks are done concurrently by multiple threads executing concurrently.
+-------------------------------------------------------------------------------------
+
+sorting :
+	private static void bubbleSort(int array[]) {
+		if (array == null)
+			return;
+		int n = array.length;
+		if (n < 2)
+			return;
+
+		for (int i = 0; i < n - 1; i++) {
+
+			for (int j = 0; j < n - i - 1; j++) {
+
+				if (array[j] > array[j + 1]) {
+					int temp = array[j];
+					array[j] = array[j + 1];
+					array[j + 1] = temp;
+				}
+
+			}
+
+		}
+
+	}
+	-------------------------------------------------------------------------------------
+	private static void insertionSort(int array[]) {
+		if (array == null)
+			return;
+		int n = array.length;
+		if (n < 2)
+			return;
+
+		for (int i = 1; i < n - 1; i++) {
+			int k = array[i];
+			int j = i - 1;
+
+			while (j >= 0 && array[j] > k) {
+
+				array[j + 1] = array[j];
+				j = j - 1;
+			}
+			array[j + 1] = k;
+
+		}
+
+	}
+	-------------------------------------------------------------------------------------
+	private static void mergeSort(int array[], int left, int right) {
+
+		if (left < right) {
+			int m = (left + right) / 2;
+
+			mergeSort(array, left, m);
+			mergeSort(array, m + 1, right);
+			merge(array, left, m, right);
+		}
+
+	}
+
+	private static void merge(int array[], int l, int m, int r) {
+
+		/* Find sizes of two subarrays to be merged */
+		int n1 = m - l + 1;
+		int n2 = r - m; // r-m-1+1;
+
+		int L[] = new int[n1];
+		int R[] = new int[n2];
+
+		/* Copy data to temp arrays */
+		for (int i = 0; i < n1; i++) {
+			L[i] = array[l + i];
+		}
+		for (int i = 0; i < n2; i++) {
+			R[i] = array[m + 1 + i];
+		}
+
+		/* Merge the temp arrays */
+		int i = 0, j = 0;
+
+		/* Initial index of merged subarry array */
+		int k = l;
+
+		while (i < n1 && j < n2) {
+
+			if (L[i] <= R[j]) {
+				array[k] = L[i];
+				i++;
+			} else {
+				array[k] = R[j];
+				j++;
+			}
+			k++;
+
+		}
+
+		/* Copy remaining elements of L[] if any */
+		while (i < n1) {
+			array[k] = L[i];
+			i++;
+			k++;
+		}
+
+		/* Copy remaining elements of R[] if any */
+		while (j < n2) {
+			array[k] = R[j];
+			j++;
+			k++;
+		}
+
+	}
+
+	private static void mergeSortArray(int array[]) {
+		if (array == null)
+			return;
+		int n = array.length;
+		if (n == 1)
+			return;
+
+		mergeSort(array, 0, n - 1);
+
+	}
+	-------------------------------------------------------------------------------------
+	
+		private static void quickSortArray(int array[]) {
+		if (array == null)
+			return;
+		int n = array.length;
+		if (n < 2)
+			return;
+
+		quickSort(array, 0, n - 1);
+
+	}
+
+	private static void quickSort(int array[], int lowerIndex, int higherIndex) {
+		int i = lowerIndex;
+		int j = higherIndex;
+		int pivot = array[lowerIndex + (higherIndex - lowerIndex) / 2];
+
+		System.out.println("pivot is : " + pivot);
+		while (i <= j) {
+			/*
+			 * In each iteration, we will identify a number from left side which
+			 * is greater then the pivot value, and also we will identify a
+			 * number from right side which is less then the pivot value. Once
+			 * the search is done, then we exchange both numbers.
+			 */
+			while (array[i] < pivot) {
+				i++;
+			}
+
+			while (array[j] > pivot) {
+				j--;
+			}
+
+			if (i <= j) {
+				System.out.println(" swapping " + array[i] + "  and " + array[j]);
+				int temp = array[i];
+				array[i] = array[j];
+				array[j] = temp;
+
+				i++;
+				j--;
+			}
+
+		}
+		if (lowerIndex < j)
+			quickSort(array, lowerIndex, j);
+		if (higherIndex > i)
+			quickSort(array, i, higherIndex);
+
+	}
