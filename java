@@ -551,6 +551,26 @@ controller.countDown(); // decrements the CountdownLatch count
 Countdown Latch vs Cyclic Barrier :
 1. you can not reuse CountDownLatch once the count reaches zero while you can reuse CyclicBarrier by calling reset() method which resets Barrier to its initial State. 
 2. What it implies that CountDownLatch is a good for one-time events like application start-up time and CyclicBarrier can be used to in case of the recurrent event e.g. concurrently calculating a solution of the big problem etc.
+
+synchronization mechanisms offered by the Java language for critical section codes by:
+1.The keyword synchronized
+2.The Lock interface and its implementations.
+
+A semaphore is a counter that protects the access to one or more shared resources.
+CountDownLatch : A class that allows one or more threads to wait until a set of operations are finalized.
+
+One interesting advantage of the CyclicBarrier class is that you can pass an additional Runnable object as an initialization 
+parameter, and the CyclicBarrier class executes this object as a thread when all the threads have arrived to the common point.
+This characteristic makes this class adequate for the parallelization of tasks using the divide and conquer programming 
+technique.
+The CyclicBarrier class has some points in common with the CountDownLatch class, but they also have some differences. One of 
+the most important differences is that a CyclicBarrier object can be reset to its initial state, assigning to its internal 
+counter the value with which it was initialized.
+A CyclicBarrier object can be in a special state denoted by broken. When there are various threads waiting in the await() 
+method and one of them is interrupted, this thread receives an InterruptedException exception, but the other threads that 
+were waiting receive a BrokenBarrierException exception and CyclicBarrier is placed in the broken state.
+
+CompletionService class :where you need to send the tasks to the executor in one object and process the results in another one. 
 ---------------------------------------------------------------------------------------------------------
 Phaser : executing task in multiple phase using phaser.
 A reusable synchronization barrier, similar in functionality to CyclicBarrier and CountDownLatch by  supporting more flexible usage.
@@ -562,6 +582,9 @@ phaser.arriveAndDeregister(); // Arrives at this phaser and deregisters from it 
 
 phaser.register(); // Adds a new unarrived party to this phaser
 override onAdvance method of Phaser class to control the phases. // override this func to  control the phase changes 
+
+The Phaser class provides us with the mechanism to synchronize the threads at the end of each step.
+Exchanger class : the interchange of data between two concurrent tasks
 ---------------------------------------------------------------------------------------------------------
 Exchanger class:
 synchronization point at which threads can pair and swap elements
