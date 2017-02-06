@@ -810,3 +810,6 @@ public class Singleton implements Serializable{
 
 }
 ---------------------------------------------------------------------------------------------------------
+Where oyu have used multithreading in project:
+1. diff content processing like images/audio files/video files/
+2. batch jobs TV monitor/ broker /
