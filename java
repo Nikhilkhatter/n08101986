@@ -810,7 +810,10 @@ public class Singleton implements Serializable{
 
 }
 ---------------------------------------------------------------------------------------------------------
-Where oyu have used multithreading in project:
+Where you have used multithreading in project:
 1. diff content processing like images/audio files/video files/
 2. batch jobs TV monitor/ broker /
 3. File processing
+4. JUnit uses threads to run test cases in parallel
+5. Text Editor follows multithreading concept. When you are typing the words printing,formatting of text, spell checking, 
+all tasks are done concurrently by multiple threads executing concurrently.
