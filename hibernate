@@ -56,3 +56,6 @@ query.setCacheable(true); // need to make all queries .setCacheable(true) while 
 Merge and Update :
 Merge: suppose we create a session and load an object. Now object in session cache. If we close the session at this point and we edit state of object and tried to save using update() it will throw exception. To make object persistent we need to open another session. Now we load same object again in current session. So if we want to update present object with previous object changes we have to use merge() method. Merge method will merge changes of both states of object and will save in database. 
 Update: If we are dealing with any object in same session we should use update() or saveOrUpdate() method. 
+
+If session does not contains an already persistent instance with the same identifier and if you are sure about that then use update to save the data. But merge() method can save your modifications at any time with out having the knowledge about the state of session.
+
