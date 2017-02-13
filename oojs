@@ -1,0 +1,244 @@
+function Person(firstName, lastName) {
+    // construct the object using the arguments
+    this.firstName = firstName;
+    this.lastName = lastName;
+
+    // a method which returns the full name
+    this.fullName = function() {
+        return this.firstName + " " + this.lastName;
+    }
+}
+
+var myPerson = new Person("John", "Smith");
+console.log(myPerson.fullName());            // outputs "John Smith"
+
+
+above is same as 
+
+var myPerson = {
+    firstName : "John",
+    lastName : "Smith",
+    fullName : function()
+    {
+        return this.firstName + " " + this.lastName;
+    }
+}
+
+
+The difference between the two methods of creating objects is that the first method uses a class to define the object and then the new keyword to instantiate it, and the second method immediately creates an instance of the object.
+------------------------------------------------------------------------------------
+
+Function Context:
+Functions in JavaScript run in a specific context, and using the this variable we have access to it.
+
+All standard functions in the browser run under the Window context. Functions defined under an object or a class (another function) will use the context of the object it was created in. However, we can also change the context of a function on runtime, both before or while executing the function.
+
+var person = {
+    name : "John"
+};
+
+function printName()
+{
+    console.log(this.name);
+}
+
+
+var boundPrintName = printName.bind(person);
+boundPrintName();    // prints out "John"
+------------------------------------------------------------------------------------
+
+Calling a function with a different context:
+
+We can use the call and apply functions to call a function as if it was bound to an object. The difference between the call and apply functions is only by how they receive their arguments - the call function receives the this argument first, and afterwards the arguments of the function, whereas the apply function receives the this argument first, and an array of arguments to pass on to the function as a second argument to the function.
+
+For example, let's call printName with person as the context using the call method:
+
+printName.call(person);      // prints out "John"
+------------------------------------------------------------------------------------
+
+Inheritance:
+JavaScript uses prototype based inheritance. Every object has a prototype, and when a method of the object is called then JavaScript tries to find the right function to execute from the prototype object.
+
+The prototype attribute :Without using the prototype object, we can define the object Person like this:
+function Person(name, age)
+{
+    this.name = name;
+    this.age = age;
+
+    function describe()
+    {
+        return this.name + ", " + this.age + " years old.";
+    }
+}
+
+When creating instances of the Person object, we create a new copy of all members and methods of the functions. This means that every instance of an object will have its own name and age properties, as well as its own describe function.
+
+However, if we use the Person.prototype object and assign a function to it, it will also work.
+function Person(name, age)
+{
+    this.name = name;
+    this.age = age;
+}
+
+Person.prototype.describe = function()
+{
+    return this.name + ", " + this.age + " years old.";
+}
+When creating instances of the Person object, they will not contain a copy of the describe function. Instead, when calling an object method, JavaScript will attempt to resolve the describe function first from the object itself, and then using its prototype attribute.
+-----------------------
+Inheritance :  create a Person object, and a Student object derived from Person:
+
+var Person = function() {};
+
+Person.prototype.initialize = function(name, age)
+{
+    this.name = name;
+    this.age = age;
+}
+
+Person.prototype.describe = function()
+{
+    return this.name + ", " + this.age + " years old.";
+}
+
+Person.prototype.display = function()
+{
+    console.log( " superclass display ");
+}
+
+var Student = function() {};
+Student.prototype = new Person();
+
+Student.prototype.learn = function(subject)
+{
+    console.log(this.name + " just learned " + subject);
+}
+
+Student.prototype.display = function()
+{
+    Person.prototype.display(this);
+    console.log( "subclass  display ");
+}
+
+
+var me = new Student();
+
+me.initialize("John", 25);
+me.learn("Inheritance");
+me.display();
+
+//John just learned Inheritance
+//superclass display
+//subclass display
+
+As we can see in this example, the initialize method belongs to Person and the learn method belongs to Student, both of which are now part of the me object.
+
+Keep in mind that there are many ways of doing inheritance in JavaScript, and this is just one of them.
+------------------------------------------------------------------------------------
+ What is the best way to detect a mobile device in jQuery?  : navigator.userAgent
+
+A closure is an inner function that has access to the outer function's variables known as Closure.
+
+How to include a JavaScript file in another JavaScript file : 
+$.getScript("my_lovely_script.js", function(){}  );
+
+trim string in JavaScript : $.trim('  Web Technology   '); //o/p: Web Technology
+
+function capitalizeFirstLetterOfString(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+Copy To The Clipboard In JavaScript: 
+
+<script type="text/javascript"> 
+function selectAllData(id) { 
+var obj = document.getElementById(id); 
+var text_val=eval(obj); 
+text_val.focus(); 
+text_val.select(); 
+if (!document.all) return; // if IE return; 
+r = text_val.createTextRange(); 
+r.execCommand('copy'); }
+</script> 
+
+<textarea cols="30" id="textareaId" row="50"> javascript interview questions and answers  </textarea>
+<input onclick="return selectAllData('textareaId')" type="button" value="Select All" />
+------------------------------------------------------------------------------------
+content-type of JSON : application/json
+content-type of JSONP: application/javascript
+JSONP is JSON with padding. Response is JSON data but with a function call wrapped around it.
+functioncallExample({ "Name": "Web Technology", "Website": "http://www.web-technology-experts-notes.in" });
+
+HOisted in js :the variables can be used before declared, this kinds of mechanism is called Hoisted 
+------------------------------------------------------------------------------------
+function sum(a, b) {
+    alert(a + b);
+}
+
+function sum(c) {
+    alert(c);
+}
+
+sum(3);//The output is 3.
+sum(2, 4);//The output is 2.
+------------------------------------------------------------------------------------
+Call a function with argument provided as an array. You can use apply if you don't know how many argument are going to pass to the functions. The .call() method is little bit faster than .apply() method.
+------------------------------------------------------------------------------------
+Promises & Deferreds:
+a promise represents a value that is not yet known ( A Promise represents an operation that hasn't completed yet, but is expected in the future.)
+a deferred represents work that is not yet finished
+
+//nesting the callback functions with asynchronous code 
+doA(function(aResult) {
+    // do some stuff inside b then fire callback
+    doB(aResult, function(bResult) {
+        // ok b is done, now do some stuff in c and fire callback
+        doC(bResult, function(cResult) {
+            // finished, do something here with the result from doC()
+        });
+    });
+});
+
+
+
+doA()
+    .then(function() { return doB(); })
+    .then(function() { return doC(); })
+    .done(function() { /* do finished stuff here */ });
+
+
+Promises :Alternate way to manage async code in js.
+
+eg.
+var p1 = new Promise(executor) or new Promise(function(resolve, reject) { ... });
+
+p1.then ( function (val){} )      //this is resolve function 
+p1.catch( function (reason){} )  //this is rejected function with reason
+------------------------------------------------------------------------------------
+
+function doAsync2() {
+    var deferredObject = $.Deferred();
+
+    setTimeout(function() {
+        var randomValue = Math.random();
+        if(randomValue < 0.5) {
+            deferredObject.resolve();
+        } else {
+            deferredObject.reject();
+        }
+    }, 1000);
+
+    return deferredObject.promise();
+}
+
+
+var promise = doAsync2();
+
+promise.done(function () {
+    console.log("Executed after a delay");
+});
+
+promise.fail(function () {
+    console.log("Executed if the async work fails");
+});
+
