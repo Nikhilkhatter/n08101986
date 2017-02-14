@@ -1,0 +1,19 @@
+DB tuning - 
+avoid multiple connections to db - it is slowest process 
+avoid multiple IO to Database
+go atomic - divide and conquer
+	use partitions,  local indexes, store data across multiple disks
+
+use parallism
+disk caching
+use larger block size - this keeps more data in memory, compact dense packed, 
+
+sql tuning - 
+
+avoid unnecessary sort
+use union all , use compute stats while creating index
+avoid full table scans
+avoid joining too many tables
+try to use index clause in the where clause
+use compaund index with care, avoid repeating columns
+use shared cursor parameters
