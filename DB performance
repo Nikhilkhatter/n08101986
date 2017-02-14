@@ -1,3 +1,14 @@
+top ten mistakes
+
+1. BAD conenction management ( too many connections )
+2. bad use of cursor and shared pool
+3. badly coded sql
+4. use of non standard init params
+5. design database IO wrong
+6. long fulll table scans
+7. high amount of recursive sql
+8. deployment and migrationn errors
+
 DB tuning - 
 avoid multiple connections to db - it is slowest process 
 avoid multiple IO to Database
