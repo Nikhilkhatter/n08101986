@@ -1,0 +1,167 @@
+best practices for scaling web apps --
+
+pblm - 
+1. getting billion hits a day
+
+
+why important to scale -
+	creating a scalable solution ( in incremetal steps )
+
+	while(Not fixed){
+		propose an architecture
+		
+
+
+	}
+
+
+eg instagram example - site was down on the day it was launched
+
+concepts -
+scalability 	- how many req i can handle
+performance 	- optimal uitilization of resources
+responsiveness 	- time taken per operation
+availability	- application availability at a point of time
+downtime impact - impact when site down for some time ( 1 hour )
+
+
+CAP theoram - ( 2 of 3 can be achieved )
+
+consistency 	- when u write to DB, it is consistent, it is atomic( reflected everywhere)
+availability	- 	
+partition tolerance - parts of system can die, but overall system is up and running ( no set of failures less than total network failure is allowed to cause the syatem to respond incorectly)
+
+
+Fallacies of distributing computing - 
+
+network is reliable
+latency is zero. ( local network is fine but online network cause delay )
+bandwidth is infinite - 
+network is secure
+topology does not change
+transport cost is zero
+network is homogeneous
+
+Failed Architecture - best thing is fail fast for develpoer ( it should be failed asap on papers and theoritically)
+
+DB server needs more RAM instead of more CPU
+APP server needs more CPU instead of more RAM ( optimize tcp/ip and use NON - blocking IO )
+
+threw more ram and more cpu
+
+vertical partitioning ( scaling up ) -
+	2 diff server instaed of single app and DB server created.
+	downside - i did not actually increase the availablity of my server ( DB and APP ), if anyone is down, means APP is down
+
+
+Horizontal scaling - load balancer ( scaling out )
+Load balancer -->  Load balancer <--DB server
+
+points of failure -
+1. DB server  - 
+2. load balancer - 
+
+unfortunate solution -  using more services ( diff department with diff services, customer service, order service, product service )
+performance issue here bcos multiple joins are needed here to use services together
+
+
+Stickey Sessions - 
+ 	user1 -> load balancer --> web ( anytime same user come, load balancer redirets the req to same server )
+
+Central Session Store - load balancer find session data from central session and redirects the req to server ( highly recommended solution proposed )
+
+Clustured Session management -  same session data is replicated on diff app servers ( if we have less no of request , this is a gud solution )
+
+
+load balancers - active passive  if one lB is down, it goes to another Load balncer
+
+active active : any one can technically handle the req and rediect it to server
+
+-----------------------------
+
+vertical Partitioning - scaling up ( use Storage Area Network -- SAN )
+
+use Horizontal scaling of DB - create multiple DB ( or DB replicas , which is time consuming but consistent, write to master and read from any slave DB replicas )
+ 
+DB partitioning - 
+
+copy DB from one server to another server  --
+ie. scaling up DB is fine , but scaling out is problematic bcos of ACID transactions
+its solution would be polyglot programming / persistent 
+
+
+DB clustor -- how many DB server can we have in actually ?
+4 master DBs --> 16 DB slaves 
+
+
+diff clusters for social data and product data ( ie. business data which is useful for my app business )
+diff DB clusers for diff clients can be created. 
+
+
+-----------------------------
+
+Caching -
+1. Add cache within App server
+	object cache, session cache, API cache, page cache ( 3 levels of caching )
+
+L1 - in process with app server
+L2 - across network boundary
+L3 - on disk
+
+2. Software 
+	memCached, Azure Cache( app fabric ), Redis ( these are no sql DBS, some are better in searching, some are better in cacheing )
+
+It does not matter what is populating on the site , only the things matter what the user wants.
+If user wants a monitor, he should be simply go to search box and search monitor while the site is loading and he does not care about the other things which are getting loaded in backend of site, All he wants is search box should work as soon as possible he saw it and populates all monitors after search .
+200 ms are enough for user to understand whether he likes the site or not.
+
+Data should be come from search service from search DB 
+load thumnails on home page only, do no load actual images and description , 
+2nd page coming from a NO SQl DB.
+Add to cart and thrid page coming from sql server now. 
+
+recommendations page comes up bcos of caching
+bcos it is easy to scale out Search Db or No sql DB instead of RDBMS
+
+we can also use HTTP Accelerators - 
+1. Redirects static content requests to a lighter http server ( lighttpd )
+2. cache contents based on rules
+3. use async non blocking IO
+4. maintain a limited pool of keep-alive sessions to the app server
+5. intelligent load balancing
+
+
+
+Best Practices for Speeding Up Your Web Site ( https://developer.yahoo.com/performance/rules.html ) :
+1. Minimize HTTP Requests
+	Use a Content Delivery Network
+	Add an Expires or a Cache-Control Header	
+	Gzip Components
+	Put Stylesheets at the Top
+	Put Scripts at the Bottom
+	Avoid CSS Expressions
+	Make JavaScript and CSS External
+	Reduce DNS Lookups
+	Minify JavaScript and CSS
+	Avoid Redirects
+	Remove Duplicate Scripts
+	Configure ETags
+	Make Ajax Cacheable
+	Minimize the Number of iframes
+	Reduce Cookie Size
+	Use Cookie-free Domains for Components
+	Minimize DOM Access
+	Optimize Images
+	Avoid Filters
+	Optimize CSS Sprites
+	Don't Scale Images in HTML
+	Make favicon.ico Small and Cacheable
+	Avoid Empty Image src
+
+
+
+
+
+
+
+
