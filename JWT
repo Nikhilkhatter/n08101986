@@ -1,0 +1,63 @@
+JWT Structure :
+
+1. three sections seprated with dots.
+			aaaa.bbbbb.ccccc   ( header.payload.signature )
+2. All are base64 encoded
+
+
+Header :
+	atleast 2 parts it contains
+	1. "typ" - should be JWT
+	2. "alg" - "HS256"  //hashing algorithm  like HS256, RS512, ES384 etc.
+
+{
+	"typ" : "JWT",
+	"alg" : "HS256"
+
+}
+
+
+
+Payload : ( also called as claims )
+	contains all the necessary data which we need to transmit
+	the info related to token itself
+	information is JSON representation of claims( key : value )
+
+Signature :
+	A hash of header and payload using a secret
+	
+	var s = base64Encoder(header) +"."+base64Encoder(payload)
+	var signature = hashAlgHs256(s, "secret");
+
+so finally JWT = header + payload + signature
+-----------------------------------------------
+
+JWT - In real world 
+
+client/consumer/app  	<-------------->	server/service/App 
+
+steps - 
+1. request token ( by providing auth credentials)  : client ask for request token
+2. check credentials and create token ( JWT )      : server creates this
+3. send JWT to client ( or error if not auth )
+4. verify token at client side (optional) and extract info for app usage (optional) and  persist token
+5. use same persisted token for all subsequest requests to server
+6. now server verify token for all requests
+7. if valid token, server respond with correct response else return error
+-----------------------------------------------
+
+creating JWT using pure JS -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
