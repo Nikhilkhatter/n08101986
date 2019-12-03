@@ -1,0 +1,150 @@
+java 9 -https://www.youtube.com/watch?v=Yacu1yUktjY&t=266s
+
+for big list -->
+
+1. improvement and changes java 9 ->
+	-> interfaces - private methods in interface can be written and can be called from either default or static default method contexts.
+	-> try with resources - try(Resource r = new Resource()){
+		r.funct();
+	}
+
+	-> No _ : underscore while passing it as anonymous lamblda function shows a waring in java 8, but in java 9 its hows error and _ is a keywrod can not be used as identifier.
+	-> java 8 functions like filter, skip, limit
+
+	-> filter ( predicate )
+	-> limit ( count ) what if limit bsaed on condition
+	-> skip ( count ) skipped first n( count) values
+
+	-> takeWhile ( e -> e < 55 ) but it will shut the door once condition is failed
+	-> dropWhile( e -> e < 55 ) -- check for more
+	-> IntStream.range(0,5) , prints 0,1,2,3,4
+	-> IntStream.rangeClosed(0,5) , prints 0,1,2,3,4,5 ( less than equal to )
+
+	-> Stream.iterate(seed, e -> e+1 ) -- iterator is available in java 8 but in java 9, 
+
+		for(int i=0, i <=5; i=i+2){
+			sysout(i);
+		}
+		IntStream.iterate(0, i -> i<=5 , i -> i+2 )
+			.forEach(System.out::println)
+
+		IntStream.iterate(0, i -> i+2 )
+			.limit(5)	// takeWhile, dropWhile, skip
+			.forEach(System.out::println)
+	
+	-> if u want to return a collection, but u have nothing to return, then return empty collection and not null.
+	-> if u want to return a Object, but u have nothing to return, then return null
+
+	
+Optional first = numbers.stream().filter(e -> e > 50).findFirst() // what if first does not exist and numbers list does not contain more than 50 value
+
+Optional first = numbers.stream().filter(e -> e > 50).findFirst();
+first.isPresentOrElse(e -> sysout (e) , () -> sysout('nothing returned '));
+
+// map function of optional behavior 
+Optional first = numbers.stream()
+	.filter(e -> e > 50)
+	.findFirst()
+	.or( () -> Optional.of(77) ); // or is to inject an optional 
+sysout(first);
+
+
+	-> take an optional and convert it to stream before processing and sending as stream to process
+
+	process (Stream<integer> numbers){
+		stream.forEach(System.out::println)
+	}
+
+	process ( numbers.stream()
+	.filter(e -> e > 50)
+	.findFirst().stream() );
+------------------------------------
+
+2. additions 
+	-> The of methods
+		List<Interger> numbers = List.of(1,2,3,4,5);
+		sysout(numbers.getClass()) //java..util.ImmutableCollection$ListN
+ 
+			Set.of("A","C","B");//java..util.ImmutableCollection$ListN
+			Map.of("A",1,"B",2,"C",3)
+			Map.of("A",1,"B",2,"C") // compile error - no value given
+			Map.of("A",1,"B",2,"C",3.0) // type inference works automatically
+	
+		-> type
+		-> special for 1 or 2 elements/values  //java..util.ImmutableCollection$List1, java..util.ImmutableCollection$List2
+		-> large number of elements
+
+	-> CompletableFuture , completeOnTimeout
+
+		int factory(){
+			Sleep.sleep(5000); return 43;
+		}
+		CompletableFuture.supplyAsync(Sample::factory)// factory method to generate data
+			.thenAccept(SYstem:out::println)	
+
+		CompletableFuture future =  CompletableFuture.supplyAsync(Sample::factory);
+		future.thenAccept(SYstem:out::println);
+		future.completeOnTimeout(-1, 2, TimeUnit.SECONDS)
+
+		CompletableFuture.supplyAsync(Sample::factory)// factory method to generate data
+			.orTimeout(2, TimeUnit.SECONDS)
+			.thenAccept(SYstem:out::println)
+
+	-> Stack Walker : dealing with exceptiions with huge exception stack
+		dealing with stack trace 
+
+	-> jShell : repl for JAVA. ( nore is repl for js ) read evaluate print loop
+		reason why used : find growing incremental devlopment , used in unit testing dynamically
+ 
+how to start repl : command repl , /exit , CTRL+D , CTRL + L ( clear the line )
+
+	/ is for JSheel ( slash )
+	without / command is for JVM
+	jshell : no need for semicolons
+
+	Thread.sleep(5000);
+	System.out.println('print heelo directly with jshell')
+
+	snippet auto completion : auto complete feature for JDK APIs ( java doc )
+
+	jshell>/1 ( execute first command which was exceuted )
+	jshell>/-n ( execute nth command which was exceuted )
+	jshell>/! ( execute prev command which was exceuted )
+
+	/imports ( what imports are already loaded )
+		eg. java.util.* , java.io.* , java.math.* , java.net.* , java.concurrent.*,java.util.prefs.*, java.util.regex.*
+	/--class-path ( load classes in classpath for jsheel to b using )
+
+	jshell> /list ( listing of all code written )
+	jshell> /save ( put code in filename , later can be retrieved )
+
+	/v ( show what variables are used in code or created )
+	/t ( show what types of interfaces and class used  )
+	/edit greet ( change greet var value )
+	/drop $8  ( dropping var $8)
+	/drop MyClass
+	/ foo()    // can not call method foo untill bar is created as bar is not declaed yet
+	/ final int a = 6; // final not allowed in JShell
+
+	/history ( like list of all commands but include everything)
+---------------------------------------
+3. advances : Modularization key feature in java 9
+	
+->whats the problem: 
+	large jars, like rt.jar 
+	lack of clarity on dependencies ( maven , gradle etc are compile time dependencies, what about runtime dependencies? )
+	public is too open
+	late runtime failures ( how does classpath behave, fail late or fail early/fast eg. key forget at home and later u realize )
+
+->how many modules in jdk ? 
+	java --list-modules
+	java --list-modules | wc -1 ( 94 modules in jdk ) all based on java.base module
+
+
+
+
+
+
+
+
+	
